@@ -14,19 +14,21 @@ const App = () => {
     )
   }
 
+  const Part = (props) => {
+    return (
+      <p>
+        {props.part} {props.exercise}
+      </p>
+    )
+  }
+
   // Renders the parts and their number of exercies
   const Content = (props) => {
     return (
       <>
-        <p>
-          {part1} {exercises1}
-        </p>
-        <p>
-          {part2} {exercises2}
-        </p>
-        <p>
-          {part3} {exercises3}
-        </p>
+        <Part part={part1} exercise={exercises1}/>
+        <Part part={part2} exercise={exercises2}/>
+        <Part part={part3} exercise={exercises3}/>
       </>
     )
   }
