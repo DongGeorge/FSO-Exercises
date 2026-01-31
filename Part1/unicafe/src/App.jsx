@@ -1,6 +1,13 @@
 import { useState } from 'react'
 
-const StatisticLine = (props) => (<p>{props.text} {props.value}</p>)
+const StatisticLine = (props) => {
+  return (
+    <tr>
+      <td>{props.text}</td>
+      <td>{props.value}</td>
+    </tr>
+  )
+}
 
 const Statistics = ({good, neutral, bad}) => {
   const totalCount = good + neutral + bad
@@ -12,19 +19,19 @@ const Statistics = ({good, neutral, bad}) => {
     return score / totalCount
   }
 
-  const positivePercentage = () => good / totalCount
+  const positivePercentage = () => good / totalCount * 100
 
   if (totalCount > 0) {
     return (
-      <>
+      <table>
         <StatisticLine text="good" value={good}/>
         <StatisticLine text="neutral" value={neutral}/>
         <StatisticLine text="bad" value={bad}/>
 
         <StatisticLine text="all" value={totalCount}/>
         <StatisticLine text="average" value={calculateAverage()}/>
-        <StatisticLine text="positive" value={positivePercentage()}/>
-      </>
+        <StatisticLine text="positive" value={positivePercentage() + " %"}/>
+      </table>
     )
   } else {
     return (
