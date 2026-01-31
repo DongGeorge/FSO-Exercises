@@ -24,13 +24,15 @@ const Statistics = ({good, neutral, bad}) => {
   if (totalCount > 0) {
     return (
       <table>
-        <StatisticLine text="good" value={good}/>
-        <StatisticLine text="neutral" value={neutral}/>
-        <StatisticLine text="bad" value={bad}/>
+        <tbody>
+          <StatisticLine text="good" value={good}/>
+          <StatisticLine text="neutral" value={neutral}/>
+          <StatisticLine text="bad" value={bad}/>
 
-        <StatisticLine text="all" value={totalCount}/>
-        <StatisticLine text="average" value={calculateAverage()}/>
-        <StatisticLine text="positive" value={positivePercentage() + " %"}/>
+          <StatisticLine text="all" value={totalCount}/>
+          <StatisticLine text="average" value={calculateAverage()}/>
+          <StatisticLine text="positive" value={positivePercentage() + " %"}/>
+        </tbody>
       </table>
     )
   } else {
