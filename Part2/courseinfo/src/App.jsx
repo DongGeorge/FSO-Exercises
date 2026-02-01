@@ -1,10 +1,12 @@
-const Part = ({name, exercises, id}) => <p>{name} {exercises}</p>
+const Part = ({name, exercises}) => <p>{name} {exercises}</p>
 
 const Course = ({course}) => {
   const { id, name, parts } = course
-  const courseElements = parts.map(part => <Part name={part.name} exercises={part.exercises} id={part.id} />)
-  let totalCount = 0
-  parts.forEach(part => totalCount += part.exercises)
+  const courseElements = parts.map(part => <Part name={part.name} exercises={part.exercises} key={part.id} />)
+  const totalCount = parts.reduce(
+    (total, currentPart) => total + currentPart.exercises,
+    0
+  )
 
   return (
     <>
