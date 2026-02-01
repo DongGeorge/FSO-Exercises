@@ -22,14 +22,30 @@ const App = () => {
     setCounts(copy)
   }
 
+  const getMostVoteAnecdote = () => {
+    let mostIndex = 0
+    let mostVote = 0
+    for (let i = 0; i < counts.length; i++) {
+      if (counts[i] > mostVote) {
+        mostVote = counts[i]
+        mostIndex = i
+      }
+    }
+    return anecdotes[mostIndex]
+  }
+
   return (
     <>
+      <h1>Anecdote of the day</h1>
       <div>
         {anecdotes[selected]}
       </div>
       <div>has {counts[selected]} votes</div>
       <button onClick={updateCountIdx}>vote</button>
       <button onClick={() => setSelected(getRandomAnecdote())}>next anecdote</button>
+
+      <h1>Anecdote with most votes</h1>
+      <div>{getMostVoteAnecdote()}</div>
     </>
   )
 }
