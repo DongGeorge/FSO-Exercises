@@ -13,14 +13,22 @@ const App = () => {
   ]
    
   const [selected, setSelected] = useState(0)
+  const [counts, setCounts] = useState(Array(anecdotes.length).fill(0))
 
   const getRandomAnecdote = () => (Math.floor(Math.random() * anecdotes.length))
+  const updateCountIdx = () => {
+    const copy = [...counts]
+    copy[selected] += 1
+    setCounts(copy)
+  }
 
   return (
     <>
       <div>
         {anecdotes[selected]}
       </div>
+      <div>has {counts[selected]} votes</div>
+      <button onClick={updateCountIdx}>vote</button>
       <button onClick={() => setSelected(getRandomAnecdote())}>next anecdote</button>
     </>
   )
