@@ -3,11 +3,14 @@ const Part = ({name, exercises, id}) => <p>{name} {exercises}</p>
 const Course = ({course}) => {
   const { id, name, parts } = course
   const courseElements = parts.map(part => <Part name={part.name} exercises={part.exercises} id={part.id} />)
+  let totalCount = 0
+  parts.forEach(part => totalCount += part.exercises)
 
   return (
     <>
       <h1>{name}</h1>
       {courseElements}
+      <b>total of {totalCount} exercises</b>
     </>
   )
 }
