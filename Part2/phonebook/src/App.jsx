@@ -43,8 +43,18 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
   )
 }
 
-const Persons = (props) => {
+const Persons = ({persons, filter}) => {
+  const filteredContacts = filter === ''
+    ? persons
+    : persons.filter(person => person.name.toLowerCase().startsWith(filter))
 
+  // console.log(filteredContacts)
+
+  return (
+    <>
+      {filteredContacts.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
+    </>
+  )
 }
 
 const App = () => {
@@ -58,24 +68,18 @@ const App = () => {
   const [newNumber, setNumber] = useState('')
   const [filter, setFilter] = useState('')
 
-  const filteredContacts = filter === ''
-    ? persons
-    : persons.filter(person => person.name.toLowerCase().startsWith(filter))
-
-  // console.log(filteredContacts)
-
   return (
     <div>
       <h2>Phonebook</h2>
         <Filter filter={filter} setFilter={setFilter} />
-      <h2>add a new</h2>
+      <h2>Add a new</h2>
         <PersonForm
           persons={persons} setPersons={setPersons}
           newName={newName} setNewName={setNewName}
           newNumber={newNumber} setNumber={setNumber}
         />
       <h2>Numbers</h2>
-      {filteredContacts.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
+        <Persons persons={persons} filter={filter} />
     </div>
   )
 }
