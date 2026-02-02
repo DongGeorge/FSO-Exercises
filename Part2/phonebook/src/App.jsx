@@ -1,7 +1,11 @@
 import { useState } from 'react'
 
-const Filter = (props) => {
-
+const Filter = ({filter, setFilter}) => {
+  return (
+    <div>
+      filter shown with <input value={filter} onChange={(event) => setFilter(event.target.value)}/>
+    </div>
+  )
 }
 
 const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNumber}) => {
@@ -63,15 +67,13 @@ const App = () => {
   return (
     <div>
       <h2>Phonebook</h2>
-        <div>
-          filter shown with <input value={filter} onChange={(event) => setFilter(event.target.value)}/>
-        </div>
+        <Filter filter={filter} setFilter={setFilter} />
       <h2>add a new</h2>
-      <PersonForm
-        persons={persons} setPersons={setPersons}
-        newName={newName} setNewName={setNewName}
-        newNumber={newNumber} setNumber={setNumber}
-      />
+        <PersonForm
+          persons={persons} setPersons={setPersons}
+          newName={newName} setNewName={setNewName}
+          newNumber={newNumber} setNumber={setNumber}
+        />
       <h2>Numbers</h2>
       {filteredContacts.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
     </div>
