@@ -3,12 +3,21 @@ import serverFunctions from './services/people'
 const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNumber, setNotification, setIsError}) => {
   const nameIsNotPresent = (name) => persons.find(element => element.name === name) === undefined
 
+  const handleNotification = (isError, message) => {
+	setIsError(isError)
+	setNotification(message)
+	setTimeout(() => {
+		setNotification('')
+	}, 3000)
+  }
+
   const handleDuplicate = (contactName, number) => {
     const duplicateContact = persons.find(p => p.name === contactName)
     const newContact = {...duplicateContact, number }
     serverFunctions.updateContact(duplicateContact.id, newContact)
 		.then( updated => {
 			setPersons(persons.map(p => p.id === updated.id ? updated : p))
+			handleNotification(false, `Information of ${newName} was updated`)
 		})
 		.catch( error => {
 			setIsError(true)
@@ -29,9 +38,14 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
         name: newName,
         number: newNumber
       }
-      serverFunctions.addContact(newEntry).then(updated => {
+      serverFunctions.addContact(newEntry)
+	  .then(updated => {
         setPersons(persons.concat(updated))
+		handleNotification(false, `Added ${newName}`)
       })
+	  .catch(error => {
+		handleNotification(true, `Could not add or update ${newName}`)
+	  })
     } else {
 	  if (confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
         handleDuplicate(newName, newNumber)

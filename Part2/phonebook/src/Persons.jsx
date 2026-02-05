@@ -1,25 +1,26 @@
 import serverFunctions from './services/people'
 
 const ContactEntry = ({person, persons, setPersons, setNotification, setIsError}) => {
+
+	const handleNotification = (isError, message) => {
+		setIsError(isError)
+		setNotification(message)
+		setTimeout(() => {
+			setNotification('')
+		}, 3000)
+	}
+
   const handleDelete = event => {
 	if (confirm(`Delete ${person.name}?`)) {
-	  console.log(`Deleting {person.name}`)
+	  console.log(`Deleting ${person.name}`)
 	  serverFunctions.deleteContact(person.id)
 		.then( deletedContact => {
 			setPersons(persons.filter(p => p.id !== deletedContact.id))
-			setIsError(false)
-			setNotification(`Information of ${person.name} was successfully deleted`)
-			setTimeout(() => {
-				setNotification('')
-			}, 3000)
+			handleNotification(false, `Information of ${person.name} was successfully deleted`)
 		})
 		.catch( error => {
 			setPersons(persons.filter(p => p.id !== person.id))
-			setIsError(true)
-			setNotification(`Information of ${person.name} has already been removed from server`)
-			setTimeout(() => {
-				setNotification('')
-			}, 3000)
+			handleNotification(true, `Information of ${person.name} has already been removed from server`)
 		})
 	}
   }
@@ -43,7 +44,7 @@ const Persons = ({persons, filter, setPersons, setNotification, setIsError}) => 
 	<>
 	  {filteredContacts.map(person => {
 		return <ContactEntry
-		  key={person.name}
+		  key={person.id}
 		  person={person}
 		  persons={persons}
 		  setPersons={setPersons}
