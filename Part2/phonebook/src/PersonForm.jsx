@@ -24,7 +24,9 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
         setPersons(persons.concat(updated))
       })
     } else {
-      handleDuplicate(newName, newNumber)
+	  if (confirm(`${newName} is already added to phonebook, replace the old number with a new one?`)) {
+        handleDuplicate(newName, newNumber)
+	  }
     }
     setNewName('')
     setNumber('')
