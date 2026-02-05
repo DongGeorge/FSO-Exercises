@@ -22,7 +22,9 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
         name: newName,
         number: newNumber
       }
-      setPersons(persons.concat(newEntry))
+      serverFunctions.addContact(newEntry).then(updated => {
+        setPersons(persons.concat(updated))
+      })
     } else {
       alert(`${newName} is already added to phonebook`)
     }

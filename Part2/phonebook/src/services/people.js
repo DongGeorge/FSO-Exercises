@@ -6,7 +6,7 @@ const getAll = () => {
 }
 
 const addContact = newPerson => {
-	return axios.post(baseURL, newPerson)
+	return axios.post(baseURL, newPerson).then(response => response.data)
 }
 
 const updateContact = (id, newContact) => {
