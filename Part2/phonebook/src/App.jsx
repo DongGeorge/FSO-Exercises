@@ -47,6 +47,21 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
   )
 }
 
+const ContactEntry = ({person}) => {
+  const handleDelete = event => {
+    if (confirm(`Delete ${person.name}?`)) {
+      console.log(`Deleting {person.name}`)
+    }
+  }
+
+  return (
+    <div style={{display: "block"}}>
+      <p style={{display: "inline"}}>{person.name} {person.number}</p>
+      <button style={{display: "inline"}} onClick={handleDelete}>delete</button>
+    </div>
+  )
+}
+
 const Persons = ({persons, filter}) => {
   const filteredContacts = filter === ''
     ? persons
@@ -56,7 +71,7 @@ const Persons = ({persons, filter}) => {
 
   return (
     <>
-      {filteredContacts.map(person => <p key={person.name}>{person.name} {person.number}</p>)}
+      {filteredContacts.map(person => <ContactEntry key={person.name} person={person}/>)}
     </>
   )
 }
