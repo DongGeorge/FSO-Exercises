@@ -13,6 +13,14 @@ const Filter = ({filter, setFilter}) => {
 const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNumber}) => {
   const nameIsNotPresent = (name) => persons.find(element => element.name === name) === undefined
 
+  const handleDuplicate = (contactName, number) => {
+    const duplicateContact = persons.find(p => p.name === contactName)
+    const newContact = {...duplicateContact, number }
+    serverFunctions.updateContact(duplicateContact.id, newContact).then( updated => {
+      setPersons(persons.map(p => p.id === updated.id ? updated : p))
+    })
+  }
+
   const handleSubmit = (event) => {
     event.preventDefault()
     // console.log(newName)
@@ -26,7 +34,7 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
         setPersons(persons.concat(updated))
       })
     } else {
-      alert(`${newName} is already added to phonebook`)
+      handleDuplicate(newName, newNumber)
     }
     setNewName('')
     setNumber('')
@@ -51,9 +59,8 @@ const ContactEntry = ({person, persons, setPersons}) => {
   const handleDelete = event => {
     if (confirm(`Delete ${person.name}?`)) {
       console.log(`Deleting {person.name}`)
-      serverFunctions.deleteContact(person.id).then( deletedContact =>{
+      serverFunctions.deleteContact(person.id).then( deletedContact => {
         setPersons(persons.filter(p => p.id !== deletedContact.id))
-        console.log(persons)
       })
     }
   }
