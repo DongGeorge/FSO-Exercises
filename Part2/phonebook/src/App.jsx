@@ -1,5 +1,6 @@
 import { useEffect, useState } from 'react'
 import axios from 'axios'
+import serverFunctions from './services/people'
 
 const Filter = ({filter, setFilter}) => {
   return (
@@ -65,12 +66,7 @@ const App = () => {
   const [filter, setFilter] = useState('')
 
   const synchWithServer = () => {
-    axios.get("http://localhost:3001/persons").then(
-      response => {
-        console.log(response)
-        setPersons(response.data)
-      }
-    )
+    serverFunctions.getAll().then(contacts => setPersons(contacts))
   }
   
   useEffect(synchWithServer, [])
