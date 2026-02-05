@@ -44,9 +44,15 @@ const App = () => {
           persons={persons} setPersons={setPersons}
           newName={newName} setNewName={setNewName}
           newNumber={newNumber} setNumber={setNumber}
+          setNotification={setNotification} setIsError={setIsError}
         />
       <h2>Numbers</h2>
-        <Persons persons={persons} filter={filter} setPersons={setPersons} />
+        <Persons
+          persons={persons}
+          filter={filter}
+          setPersons={setPersons}
+          setNotification={setNotification} setIsError={setIsError}
+        />
     </div>
   )
 }
