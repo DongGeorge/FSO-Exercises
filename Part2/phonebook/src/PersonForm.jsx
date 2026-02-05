@@ -15,7 +15,7 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
 			setNotification(`Information of ${newName} has already been removed from server`)
 			setTimeout(() => {
 				setNotification('')
-			}, 5000)
+			}, 3000)
 			setPersons(persons.filter(p => p.id !== duplicateContact.id))
 		})
   }
