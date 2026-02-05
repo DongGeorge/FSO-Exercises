@@ -10,11 +10,11 @@ const addContact = newPerson => {
 }
 
 const updateContact = (id, newContact) => {
-	return axios.put(`${baseURL}/{id}`, newContact).then(response => response.data)
+	return axios.put(`${baseURL}/${id}`, newContact).then(response => response.data)
 }
 
 const deleteContact = id => {
-	return axios.delete(`${baseURL}/{id}`)
+	return axios.delete(`${baseURL}/${id}`).then(response => response.data)
 }
 
-export default { getAll, addContact, updateContact }
+export default { getAll, addContact, updateContact, deleteContact }

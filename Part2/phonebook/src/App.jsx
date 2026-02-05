@@ -47,10 +47,14 @@ const PersonForm = ({persons, setPersons, newName, setNewName, newNumber, setNum
   )
 }
 
-const ContactEntry = ({person}) => {
+const ContactEntry = ({person, persons, setPersons}) => {
   const handleDelete = event => {
     if (confirm(`Delete ${person.name}?`)) {
       console.log(`Deleting {person.name}`)
+      serverFunctions.deleteContact(person.id).then( deletedContact =>{
+        setPersons(persons.filter(p => p.id !== deletedContact.id))
+        console.log(persons)
+      })
     }
   }
 
@@ -62,7 +66,7 @@ const ContactEntry = ({person}) => {
   )
 }
 
-const Persons = ({persons, filter}) => {
+const Persons = ({persons, filter, setPersons}) => {
   const filteredContacts = filter === ''
     ? persons
     : persons.filter(person => person.name.toLowerCase().startsWith(filter))
@@ -71,7 +75,14 @@ const Persons = ({persons, filter}) => {
 
   return (
     <>
-      {filteredContacts.map(person => <ContactEntry key={person.name} person={person}/>)}
+      {filteredContacts.map(person => {
+        return <ContactEntry
+          key={person.name}
+          person={person}
+          persons={persons}
+          setPersons={setPersons}
+        />
+      })}
     </>
   )
 }
@@ -99,7 +110,7 @@ const App = () => {
           newNumber={newNumber} setNumber={setNumber}
         />
       <h2>Numbers</h2>
-        <Persons persons={persons} filter={filter} />
+        <Persons persons={persons} filter={filter} setPersons={setPersons} />
     </div>
   )
 }
