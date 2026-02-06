@@ -1,12 +1,23 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 
+const API_KEY = import.meta.env.VITE_OPEN_WEATHER_API_KEY
+
 const CountryInfo = ({ country }) => {
   console.log(country)
+  const [weather, setWeather] = useState(null)
 
   const languageList = Object.entries(country.languages).map(([key, value]) => {
-    return <li>{value}</li>
+    return <li key={value}>{value}</li>
   })
+
+  useEffect(() => {
+    axios.get(`https://api.openweathermap.org/data/2.5/weather?q=${country.capital[0]}&appid=${API_KEY}`)
+      .then(response => {
+        console.log(response)
+        setWeather(response.data)
+      })
+  }, [country])
 
   return (
     <>
@@ -19,6 +30,15 @@ const CountryInfo = ({ country }) => {
         {languageList}
       </ul>
       <img style={{width: '12rem'}} src={country.flags.svg} />
+      {
+        weather &&
+        <>
+          <h2>Weather in {country.capital[0]}</h2>
+          <p>Temperature {Math.round((weather.main.temp - 273) * 100) / 100} Celcius</p>
+          <img src={`https://openweathermap.org/img/wn/${weather.weather[0].icon}@2x.png`} />
+          <p>Wind {weather.wind.speed} m/s</p>
+        </>
+      }
     </>
   )
 } 
