@@ -1,6 +1,28 @@
 import axios from 'axios'
 import { useState, useEffect } from 'react'
 
+const CountryInfo = ({ country }) => {
+  console.log(country)
+
+  const languageList = Object.entries(country.languages).map(([key, value]) => {
+    return <li>{value}</li>
+  })
+
+  return (
+    <>
+      <h1>{country.name.common}</h1>
+      <p>Capital: {country.capital[0]}</p>
+      <p>Area: {country.area}</p>
+
+      <h2>Languages</h2>
+      <ul>
+        {languageList}
+      </ul>
+      <img style={{width: '12rem'}} src={country.flags.svg} />
+    </>
+  )
+} 
+
 const CountryItem = ({ setCountry, country }) => {
   return (
     <div>
@@ -10,7 +32,7 @@ const CountryItem = ({ setCountry, country }) => {
   )
 }
 
-const CountryData = ({ filteredCountries }) => {
+const CountrySearch = ({ filteredCountries }) => {
   const [chosenCountry, setCountry] = useState(null)
   // console.log(filteredCountries.length)
 
@@ -30,7 +52,7 @@ const CountryData = ({ filteredCountries }) => {
     // console.log(chosenCountry.name)
     return (
       <>
-        <div>hi {chosenCountry.name.common}</div>
+        <CountryInfo country={chosenCountry} />
       </>
     )
   } else {
@@ -73,7 +95,7 @@ const App = () => {
       <div>
         <p>find countries </p>
         <input value={filter} onChange={handleFilter}/>
-        <CountryData filteredCountries={filteredCountries}/>
+        <CountrySearch filteredCountries={filteredCountries}/>
       </div>
     </>
   )
