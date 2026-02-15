@@ -1,7 +1,19 @@
 const express = require('express')
+const morgan = require('morgan')
 const app = express()
 
 app.use(express.json())
+const formatter = morgan(function (tokens, req, res) {
+  return [
+    tokens.method(req, res),
+    tokens.url(req, res),
+    tokens.status(req, res),
+    tokens.res(req, res, 'content-length'), '-',
+    tokens['response-time'](req, res), 'ms',
+	JSON.stringify(req.body)
+  ].join(' ')
+})
+app.use(formatter)
 
 let info = [
     { 
@@ -48,7 +60,7 @@ app.get('/api/persons/:id', (req, res) => {
 
 app.post('/api/persons', (req, res) => {
 	const newContact = req.body
-	console.log(newContact)
+	// console.log(newContact)
 
 	if (!newContact || !newContact.name || !newContact.number) {
 		res.status(400).json({
@@ -58,7 +70,7 @@ app.post('/api/persons', (req, res) => {
 	}
 
 	if (info.find(contact => contact.name === newContact.name)) {
-		res.status(403).json({ error: 'name must be unique' }).end()
+		res.status(409).json({ error: 'name must be unique' }).end()
 		return
 	}
 
