@@ -26,6 +26,12 @@ let info = [
     }
 ]
 
+const idRange = Number.MAX_SAFE_INTEGER - 1
+
+const getRandomId = () => {
+	return Math.floor(Math.random() * idRange)
+}
+
 app.get('/api/persons', (req, res) => {
 	res.json(info)
 })
@@ -38,6 +44,32 @@ app.get('/api/persons/:id', (req, res) => {
 	} else {
 		res.status(404).end()
 	}
+})
+
+app.post('/api/persons', (req, res) => {
+	const newContact = req.body
+	console.log(newContact)
+
+	if (!newContact || !newContact.name || !newContact.number) {
+		res.status(400).json({
+			error: "missing content; must contain both 'name' and 'number'"
+		}).end()
+		return
+	}
+
+	if (info.find(contact => contact.name === newContact.name)) {
+		res.status(403).json({ error: 'name must be unique' }).end()
+		return
+	}
+
+	const newInfo = {
+		id: getRandomId().toString(),
+		name: newContact.name,
+		number: newContact.number
+	}
+	// console.log(newInfo)
+	info = info.concat(newInfo)
+	res.json(newInfo)
 })
 
 app.delete('/api/persons/:id', (req, res) => {
