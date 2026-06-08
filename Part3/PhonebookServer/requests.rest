@@ -1,0 +1,51 @@
+### 3.1 - can also use to test deletes and POSTs
+
+GET http://localhost:3001/api/persons
+
+### 3.2
+
+GET http://localhost:3001/info
+
+### 3.3
+
+GET http://localhost:3001/api/persons/2
+
+### 3.4
+
+DELETE  http://localhost:3001/api/persons/2
+
+### 3.5
+
+POST  http://localhost:3001/api/persons
+Content-Type: application/json
+
+{ 
+    "name": "John Pork", 
+    "number": "67-89-1234567"
+}
+
+### 3.6
+
+POST  http://localhost:3001/api/persons
+Content-Type: application/json
+
+{ 
+    "name": "John Pork"
+}
+
+### 3.6
+
+POST  http://localhost:3001/api/persons
+Content-Type: application/json
+
+{ 
+   "number": "67-89-1234567"
+}
+
+### 3.6
+
+POST  http://localhost:3001/api/persons
+Content-Type: application/json
+
+{ 
+}
