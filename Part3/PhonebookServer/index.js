@@ -63,9 +63,10 @@ app.get('/api/persons/:id', (req, res) => {
 app.delete('/api/persons/:id', (req, res) => {
     const target = req.params.id
     const startingLength = data.length
+    const deletedContact = data.find(d => d.id === target)
     data = data.filter(d => d.id !== target)
     if (data.length !== startingLength) {
-        res.status(204).end()
+        res.status(200).json(deletedContact)
     } else {
         res.status(404).send(`Resource '${target}' could not be found`)
     }
@@ -86,7 +87,7 @@ app.post('/api/persons', (req, res) => {
     }
     // 3.6 ------------
     
-    const id = Math.ceil(Math.random() * 1_000_000_000)
+    const id = Math.ceil(Math.random() * 1_000_000_000).toString()
     const newEntry = { ...req.body, "id": id }
     data.push(newEntry)
     res.status(200).send(newEntry)
