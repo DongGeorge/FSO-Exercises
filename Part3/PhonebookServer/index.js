@@ -5,6 +5,7 @@ const app = express()
 
 app.use(express.json())
 app.use(cors())
+app.use(express.static('dist'))
 
 let data = [
     { 
@@ -98,4 +99,5 @@ app.post('/api/persons', (req, res) => {
 const PORT = process.env.PORT || 3001
 app.listen(PORT)
 
+// Likely on http://localhost:PORT
 console.log(`App started on port ${PORT}`)
